@@ -1,0 +1,31 @@
+.header {
+    color:gray;
+    background: pink;
+    font-family:'Times New Roman', Times, serif 
+}
+
+.header {
+    color:gray;
+    background: pink;
+    font-family:'Times New Roman', Times, serif 
+}
+
+.border-teal {
+    border: 3px teal solid;
+}
+
+a:link {
+    color:blue;
+}
+
+a:visited {
+    color:green;
+}
+
+a:hover {
+    color: yellow;
+}
+
+a:active {
+    color: red;
+}
