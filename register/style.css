@@ -1,0 +1,32 @@
+body {
+    background-color: teal;
+    font-family:'Times New Roman', Times, serif;
+}
+
+h1 {
+    text-align: center;
+    color: blue;
+}
+
+button {
+    background-color: green;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.container {
+    background: teal;
+    
+}
+
+#error {
+    color: green;
+    font-size: 14px;
+    margin-bottom: 10px;
+    background-color: teal;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid blue;
+}
