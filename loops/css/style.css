@@ -1,0 +1,11 @@
+.bttn {
+    height: 50px;
+    width: 190px;
+    border-radius: 70px;
+    background: #f4a7bb;
+    color: black;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 2px;
+}
