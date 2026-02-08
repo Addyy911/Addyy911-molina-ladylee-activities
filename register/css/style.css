@@ -1,0 +1,83 @@
+body {
+    background-color: #000000;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: white;
+}
+
+.container {
+    background: #111111;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(247, 168, 184, 0.2);
+    width: 350px;
+    border: 1px solid #f7a8b8;
+    text-align: center;
+}
+
+h1 {
+    color: #f7a8b8;
+    margin-bottom: 30px;
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #f7a8b8;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+input:focus {
+    outline: none;
+    border-color: #f7a8b8;
+    box-shadow: 0 0 8px rgba(247, 168, 184, 0.5);
+}
+
+button {
+    width: 100%;
+    background-color: #f7a8b8;
+    border: none;
+    padding: 12px;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #ffc0cb;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(247, 168, 184, 0.4);
+}
+
+#error {
+    color: #ff4d4d; /* Red for errors is usually safer for UX */
+    font-size: 13px;
+    margin-bottom: 15px;
+    display: none;
+}
