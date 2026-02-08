@@ -1,0 +1,66 @@
+body{
+    font-family:'Times New Roman', Times, serif;
+    background: gray;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 12px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    background: #f4a7bb;
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+    flex-wrap:wrap;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border-radius:5px;
+    border:1px solid black;
+    border-radius:50px;
+}
+
+button{
+    padding:10px 14px;
+    border: none;
+    background:#f4a7bb;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.85;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    border:1px solid black;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#f4a7bb;
+    color:white;
+}
+
+.pass{ color:rgb(0, 27, 179); font-weight:bold; }
+.fail{ color:red; font-weight:bold; }
