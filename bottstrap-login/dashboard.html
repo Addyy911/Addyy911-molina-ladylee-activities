@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Inventory System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --eg-black: #000000;
+            --eg-white: #ffffff;
+            --eg-green: #39ff14; /* Electric Green */
+            --eg-dark-gray: #121212;
+            --eg-card-gray: #1e1e1e;
+        }
+        body { background-color: var(--eg-dark-gray); color: var(--eg-white); font-family: 'Segoe UI', sans-serif; }
+        
+        .sidebar { 
+            min-height: 100vh; 
+            background-color: var(--eg-black) !important;
+            border-right: 1px solid #333;
+        }
+        .nav-link { color: #aaa !important; transition: all 0.2s; }
+        .nav-link:hover { color: var(--eg-green) !important; }
+        .nav-link.active { 
+            background-color: var(--eg-green) !important;
+            color: var(--eg-black) !important;
+            font-weight: bold;
+        }
+        
+        /* Interactive Card Styles */
+        .dashboard-card { 
+            text-decoration: none; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            display: block; 
+            border-radius: 10px;
+            color: var(--eg-white);
+            background-color: var(--eg-card-gray);
+            border: 1px solid #444;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .dashboard-card:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(57, 255, 20, 0.15);
+            text-decoration: none;
+            color: var(--eg-white);
+        }
+        
+        /* Specific Card Accents */
+        .card-accent-green { border-left: 4px solid var(--eg-green); }
+        .card-accent-info { border-left: 4px solid #0dcaf0; }
+        .card-accent-warning { border-left: 4px solid #ffc107; }
+
+        .card { background-color: var(--eg-card-gray); color: var(--eg-white); border: 1px solid #444; border-radius: 10px; }
+        .card-header { background-color: var(--eg-black) !important; border-bottom: 1px solid #444; color: var(--eg-green); font-weight: bold; border-top-left-radius: 10px; border-top-right-radius: 10px; }
+        
+        /* List Group Correction */
+        .list-group-item { background-color: var(--eg-card-gray); color: var(--eg-white); border-color: #444; }
+        .text-muted { color: #aaa !important; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 bg-dark text-white sidebar p-3">
+                <h4 class="mb-4" style="color: var(--eg-green); font-weight:bold;">INVENTORY</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link text-white active bg-primary rounded" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="items.html">Items</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="units.html">Units</a></li>
+                </ul>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="d-flex align-items-center">
+                        <span class="me-3">👤 Admin</span>
+                        <a href="login.html" class="btn btn-outline-danger btn-sm">Logout</a>
+                    </div>
+                </div>
+
+                <div id="lowStockAlerts"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="items.html" class="dashboard-card card-accent-green mb-3 w-100 p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Items</h5>
+                                <p class="card-text fs-2" id="totalItems" style="color: var(--eg-green);">0</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="categories.html" class="dashboard-card card-accent-info mb-3 w-100 p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Categories</h5>
+                                <p class="card-text fs-2" id="totalCategories">0</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="items.html?filter=lowstock" class="dashboard-card card-accent-warning mb-3 w-100 p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Low Stock</h5>
+                                <p class="card-text fs-2" id="lowStockCount" style="color: #ffc107;">0</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card mt-4 shadow">
+                    <div class="card-header">Recent Activity</div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush" id="activityLog">
+                            <li class="list-group-item text-muted">No activity yet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadDashboardData();
+        });
+
+        function loadDashboardData() {
+            let items = JSON.parse(localStorage.getItem('inventoryItems')) || [];
+            let cats = JSON.parse(localStorage.getItem('inventoryCategories')) || [];
+            let activities = JSON.parse(localStorage.getItem('inventoryActivities')) || [];
+            
+            document.getElementById('totalItems').innerText = items.length;
+            document.getElementById('totalCategories').innerText = cats.length;
+
+            let lowStockThreshold = 5;
+            let lowStockItems = items.filter(item => parseInt(item.qty) <= lowStockThreshold);
+            document.getElementById('lowStockCount').innerText = lowStockItems.length;
+
+            let alertContainer = document.getElementById('lowStockAlerts');
+            alertContainer.innerHTML = ""; 
+
+            if (lowStockItems.length > 0) {
+                lowStockItems.forEach(item => {
+                    alertContainer.innerHTML += `
+                        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #330000; border-color: #660000; color: #ffcccc;">
+                            <div>
+                                <strong>Low Stock!</strong> ${item.name} is running low (Current Quantity: ${item.qty}).
+                            </div>
+                            <a href="items.html?search=${encodeURIComponent(item.name)}" class="btn btn-sm btn-outline-light">View</a>
+                        </div>
+                    `;
+                });
+            }
+
+            let logContainer = document.getElementById('activityLog');
+            if (activities.length > 0) {
+                logContainer.innerHTML = "";
+                activities.slice(-5).reverse().forEach(act => {
+                    logContainer.innerHTML += `
+                        <li class="list-group-item">
+                            <small class="text-muted">${act.date}</small><br>
+                            ${act.description}
+                        </li>
+                    `;
+                });
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
